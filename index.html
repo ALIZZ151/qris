@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="Website payment QRIS, DANA, dan GOPAY." />
+  <title>Payment QRIS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <section class="hero" aria-label="Payment QRIS">
+      <div class="hero-text reveal">
+        <span class="badge">Payment Gateway</span>
+        <h1>Payment QRIS, DANA & GOPAY</h1>
+        <p>
+          Pilih QRIS yang ingin digunakan, scan kode pembayaran, atau copy nomor
+          DANA/GOPAY dengan sekali klik.
+        </p>
+      </div>
+
+      <div class="payment-wrap reveal delay-1">
+        <div class="switcher" role="tablist" aria-label="Pilih QRIS">
+          <button class="tab-btn active" type="button" data-target="tmhr" role="tab" aria-selected="true">
+            Toko TMHR
+          </button>
+          <button class="tab-btn" type="button" data-target="zabu" role="tab" aria-selected="false">
+            Zabu Cloud
+          </button>
+        </div>
+
+        <article class="payment-card" aria-live="polite">
+          <div class="card-head">
+            <div>
+              <p class="label">QRIS Aktif</p>
+              <h2 id="merchantName">TOKO TMHR, MATERIAL BANGUNAN</h2>
+              <span id="merchantNmid">NMID: ID1026530452378</span>
+            </div>
+            <span class="status-dot">Online</span>
+          </div>
+
+          <div class="qr-frame">
+            <img id="qrisImage" src="assets/qris-tmhr.jpg" alt="QRIS TOKO TMHR, MATERIAL BANGUNAN" />
+          </div>
+
+          <div class="number-box">
+            <div>
+              <p>DANA / GOPAY</p>
+              <strong id="paymentNumber">082325070335</strong>
+            </div>
+            <button class="icon-btn" type="button" id="copyNumberBtn" aria-label="Copy nomor DANA GOPAY">
+              Copy
+            </button>
+          </div>
+
+          <div class="actions">
+            <button class="primary-btn" type="button" id="downloadBtn">
+              Download QRIS
+            </button>
+            <button class="secondary-btn" type="button" id="copyMerchantBtn">
+              Copy Detail
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="info-grid reveal delay-2" aria-label="Informasi pembayaran">
+      <div class="info-card">
+        <span>01</span>
+        <h3>Pilih QRIS</h3>
+        <p>Klik tombol Toko TMHR atau Zabu Cloud sesuai tujuan pembayaran.</p>
+      </div>
+      <div class="info-card">
+        <span>02</span>
+        <h3>Scan / Download</h3>
+        <p>Scan langsung dari layar atau download foto QRIS untuk dikirim ulang.</p>
+      </div>
+      <div class="info-card">
+        <span>03</span>
+        <h3>Copy Nomor</h3>
+        <p>Gunakan tombol copy untuk menyalin nomor DANA/GOPAY otomatis.</p>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">Berhasil disalin</div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
