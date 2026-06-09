@@ -2,98 +2,147 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0f172a" />
-  <meta name="description" content="Website payment QRIS, DANA, dan GOPAY." />
-  <title>Payment QRIS</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#070a12" />
+  <meta name="description" content="Official payment page dengan 2 QRIS, copy nomor, download QRIS, preview fullscreen, dan share link." />
+  <title>ALL PAYMENT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="page">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+  <canvas class="particle-canvas" id="particleCanvas" aria-hidden="true"></canvas>
+  <div class="bg-orb orb-one" aria-hidden="true"></div>
+  <div class="bg-orb orb-two" aria-hidden="true"></div>
+  <div class="bg-orb orb-three" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
 
-    <section class="hero" aria-label="Payment QRIS">
-      <div class="hero-text reveal">
-        <span class="badge">Payment Gateway</span>
-        <h1>Payment QRIS, DANA & GOPAY</h1>
-        <p>
-          Pilih QRIS yang ingin digunakan, scan kode pembayaran, atau copy nomor
-          DANA/GOPAY dengan sekali klik.
-        </p>
+  <main class="site-shell">
+    <header class="topbar reveal-down">
+      <a class="brand" href="#payment" aria-label="Take Me Home Official Payment">
+        <span class="brand-avatar-wrap">
+          <img class="brand-avatar" src="assets/profile.jpg" alt="Take Me Home logo" />
+          <span class="verified-badge" aria-label="Official">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9.2 16.6 4.9 12.3l1.55-1.55 2.75 2.75 8.35-8.35L19.1 6.7z" />
+            </svg>
+          </span>
+        </span>
+        <span class="brand-copy">
+          <strong>Home</strong>
+          <small>ALL PAYMENT</small>
+        </span>
+      </a>
+
+      <button class="top-action" id="shareBtn" type="button">
+        <span>Share</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16.1c-.76 0-1.44.3-1.96.77L8.91 12.7a2.7 2.7 0 0 0 0-1.39l7.05-4.12A2.98 2.98 0 1 0 15 5c0 .24.03.47.08.69L8.02 9.82a3 3 0 1 0 0 4.36l7.1 4.16c-.05.2-.08.43-.08.66a2.96 2.96 0 1 0 2.96-2.9z" /></svg>
+      </button>
+    </header>
+
+    <section class="hero" id="payment">
+      <div class="hero-copy reveal-up">
+        <span class="status-pill"><i></i> Official Payment</span>
+        <h1>ALL PAYMENT</h1>
+        <p>Pilih QRIS tujuan pembayaran, download foto QR, copy nomor DANA/GOPAY, atau buka QRIS fullscreen.</p>
+
+        <div class="hero-actions">
+          <button class="main-btn primary" id="heroCopyBtn" type="button">Copy Nomor</button>
+          <button class="main-btn secondary" id="heroZoomBtn" type="button">Lihat QRIS</button>
+        </div>
       </div>
 
-      <div class="payment-wrap reveal delay-1">
-        <div class="switcher" role="tablist" aria-label="Pilih QRIS">
-          <button class="tab-btn active" type="button" data-target="tmhr" role="tab" aria-selected="true">
-            Toko TMHR
+      <section class="payment-panel reveal-up delay-1" aria-label="Panel payment QRIS">
+        <div class="panel-header">
+          <div class="panel-owner">
+            <img src="assets/profile.jpg" alt="Take Me Home logo" />
+            <div>
+              <span>Payment Owner</span>
+              <strong>Take Me Home <b class="inline-check">✓</b></strong>
+            </div>
+          </div>
+          <span class="online-chip"><i></i> Online</span>
+        </div>
+
+        <div class="qris-tabs" role="tablist" aria-label="Pilih QRIS">
+          <span class="tab-indicator" id="tabIndicator" aria-hidden="true"></span>
+          <button class="qris-tab active" type="button" data-key="tmhr" role="tab" aria-selected="true">
+            <strong>Toko TMHR</strong>
+            <small>Material Bangunan</small>
           </button>
-          <button class="tab-btn" type="button" data-target="zabu" role="tab" aria-selected="false">
-            Zabu Cloud
+          <button class="qris-tab" type="button" data-key="zabu" role="tab" aria-selected="false">
+            <strong>Zabu Cloud</strong>
+            <small>Cloud Service</small>
           </button>
         </div>
 
-        <article class="payment-card" aria-live="polite">
-          <div class="card-head">
+        <article class="qris-card" id="qrisCard" aria-live="polite">
+          <div class="merchant-row">
             <div>
-              <p class="label">QRIS Aktif</p>
+              <span class="section-label">QRIS Terpilih</span>
               <h2 id="merchantName">TOKO TMHR, MATERIAL BANGUNAN</h2>
-              <span id="merchantNmid">NMID: ID1026530452378</span>
+              <p id="merchantNmid">NMID: ID1026530452378</p>
             </div>
-            <span class="status-dot">Online</span>
+            <button class="tiny-btn" id="copyDetailTopBtn" type="button">Copy Detail</button>
           </div>
 
-          <div class="qr-frame">
+          <button class="qr-frame" id="zoomBtn" type="button" aria-label="Buka preview QRIS fullscreen">
+            <span class="scan-glow" aria-hidden="true"></span>
             <img id="qrisImage" src="assets/qris-tmhr.jpg" alt="QRIS TOKO TMHR, MATERIAL BANGUNAN" />
-          </div>
+            <span class="zoom-hint">Tap untuk fullscreen</span>
+          </button>
 
-          <div class="number-box">
+          <div class="number-card">
             <div>
-              <p>DANA / GOPAY</p>
+              <span>DANA / GOPAY</span>
               <strong id="paymentNumber">082325070335</strong>
             </div>
-            <button class="icon-btn" type="button" id="copyNumberBtn" aria-label="Copy nomor DANA GOPAY">
-              Copy
-            </button>
+            <button class="copy-btn" id="copyNumberBtn" type="button">Copy</button>
           </div>
 
-          <div class="actions">
-            <button class="primary-btn" type="button" id="downloadBtn">
-              Download QRIS
+          <div class="button-grid">
+            <button class="action-btn primary" id="downloadBtn" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16 6.8 10.8l1.4-1.45L11 12.15V3h2v9.15l2.8-2.8 1.4 1.45L12 16Zm-7 5v-6h2v4h10v-4h2v6H5Z" /></svg>
+              <span>Download QRIS</span>
             </button>
-            <button class="secondary-btn" type="button" id="copyMerchantBtn">
-              Copy Detail
+            <button class="action-btn" id="copyDetailBtn" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 18h10V6H8v12Zm-2 2V4h14v16H6Zm-4-4V0h14v2H4v14H2Z" /></svg>
+              <span>Copy Detail</span>
+            </button>
+            <a class="action-btn whatsapp" id="whatsappBtn" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2A9.94 9.94 0 0 0 2.1 11.94c0 1.75.46 3.45 1.33 4.95L2 22l5.25-1.38a9.89 9.89 0 0 0 4.79 1.22h.01A9.94 9.94 0 0 0 12.04 2Zm5.84 14.22c-.25.7-1.43 1.34-2.02 1.39-.52.04-1.18.06-1.9-.12-.44-.14-1-.33-1.72-.65-3.02-1.31-4.99-4.35-5.14-4.55-.15-.2-1.23-1.64-1.23-3.13s.78-2.22 1.06-2.52c.25-.28.67-.42 1.07-.42h.77c.24.01.55.03.83.64.32.77 1.09 2.65 1.18 2.84.1.2.16.43.03.68-.12.25-.19.4-.38.62-.2.23-.4.5-.58.67-.2.2-.4.41-.18.8.22.4.98 1.62 2.1 2.63 1.44 1.28 2.65 1.68 3.04 1.88.39.2.62.17.86-.1.25-.29.99-1.16 1.25-1.56.26-.39.53-.33.89-.2.37.14 2.34 1.1 2.74 1.3.4.2.67.3.77.47.1.16.1.93-.15 1.63Z" /></svg>
+              <span>Konfirmasi WA</span>
+            </a>
+            <button class="action-btn" id="openPreviewBtn" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h6V3H3v8h2V5Zm8-2v2h6v6h2V3h-8ZM5 13H3v8h8v-2H5v-6Zm14 6h-6v2h8v-8h-2v6Z" /></svg>
+              <span>Fullscreen</span>
             </button>
           </div>
         </article>
-      </div>
+      </section>
     </section>
-
-    <section class="info-grid reveal delay-2" aria-label="Informasi pembayaran">
-      <div class="info-card">
-        <span>01</span>
-        <h3>Pilih QRIS</h3>
-        <p>Klik tombol Toko TMHR atau Zabu Cloud sesuai tujuan pembayaran.</p>
-      </div>
-      <div class="info-card">
-        <span>02</span>
-        <h3>Scan / Download</h3>
-        <p>Scan langsung dari layar atau download foto QRIS untuk dikirim ulang.</p>
-      </div>
-      <div class="info-card">
-        <span>03</span>
-        <h3>Copy Nomor</h3>
-        <p>Gunakan tombol copy untuk menyalin nomor DANA/GOPAY otomatis.</p>
-      </div>
-    </section>
-
-    <div class="toast" id="toast" role="status" aria-live="polite">Berhasil disalin</div>
   </main>
 
+  <div class="mobile-dock" aria-label="Aksi cepat mobile">
+    <button id="mobileCopyBtn" type="button">Copy Nomor</button>
+    <button id="mobileDownloadBtn" type="button">Download QRIS</button>
+  </div>
+
+  <dialog class="qr-modal" id="qrModal" aria-label="Preview QRIS fullscreen">
+    <div class="modal-card">
+      <button class="modal-close" id="closeModalBtn" type="button" aria-label="Tutup preview">×</button>
+      <span class="section-label">Preview QRIS</span>
+      <h3 id="modalTitle">TOKO TMHR, MATERIAL BANGUNAN</h3>
+      <img id="modalImage" src="assets/qris-tmhr.jpg" alt="Preview QRIS" />
+      <div class="modal-actions">
+        <button class="action-btn primary" id="modalDownloadBtn" type="button">Download QRIS</button>
+        <button class="action-btn" id="modalCopyBtn" type="button">Copy Nomor</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Berhasil disalin</div>
   <script src="script.js"></script>
 </body>
 </html>
